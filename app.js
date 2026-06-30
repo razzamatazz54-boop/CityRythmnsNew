@@ -674,6 +674,38 @@ function sharePlace(place){
 /* ---------------- PWA ---------------- */
 function registerSW(){
   if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('sw.js').catch(()=>{});
+    // Use a path relative to the current document's directory, resolved explicitly,
+    // so this works correctly whether the app sits at a domain root or in a subfolder
+    // (e.g. GitHub Pages project sites like /CityRythmnsNew/).
+    const swUrl = new URL('sw.js', document.baseURI).href;
+    navigator.serviceWorker.register(swUrl, { scope: './' })
+      .then(reg => {
+        console.log('SW registered with scope:', reg.scope);
+        showDebugBanner('Service worker registered \u2713', false);
+      })
+      .catch(err => {
+        console.error('SW registration failed:', err);
+        showDebugBanner('Service worker FAILED: ' + err.message, true);
+      });
+  } else {
+    showDebugBanner('Service workers not supported in this browser', true);
   }
+}
+
+// Temporary on-screen debug banner -- safe to remove once install works reliably.
+function showDebugBanner(msg, isError){
+  const el = document.createElement('div');
+  el.style.position = 'fixed';
+  el.style.bottom = '0';
+  el.style.left = '0';
+  el.style.right = '0';
+  el.style.zIndex = '9999';
+  el.style.padding = '10px 14px';
+  el.style.fontSize = '12px';
+  el.style.fontFamily = 'monospace';
+  el.style.color = '#fff';
+  el.style.background = isError ? '#7a1f1f' : '#1f4d2e';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 8000);
 }
