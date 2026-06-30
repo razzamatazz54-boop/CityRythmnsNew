@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0">
+<meta name="theme-color" content="#14181F">
+<meta name="description" content="Find what's open and lively, right now.">
+<title>CityRhythm — find what's alive right now</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@600;700;800&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- SPLASH / ONBOARD -->
+  <section id="view-onboard" class="view view--active">
+    <div class="onboard">
+      <div class="onboard__pulse" aria-hidden="true">
+        <svg viewBox="0 0 200 60" class="pulse-svg">
+          <polyline class="pulse-line" points="0,30 40,30 50,10 60,50 70,30 130,30 140,5 150,55 160,30 200,30" />
+        </svg>
+      </div>
+      <h1 class="onboard__title">City<span>Rhythm</span></h1>
+      <p class="onboard__tag">Find what's alive right now — not what's listed.</p>
+
+      <form id="city-form" class="city-form">
+        <label class="field">
+          <span class="field__label">Where are you exploring?</span>
+          <input type="text" id="city-input" placeholder="Try “Lisbon”, “Brooklyn”, “Chiang Mai”…" autocomplete="off" required>
+        </label>
+        <div id="city-suggestions" class="suggestions" hidden></div>
+        <button type="submit" class="btn btn--primary btn--full">
+          <span>Read the room</span>
+        </button>
+      </form>
+      <button id="use-location" class="btn btn--ghost btn--full">Use my current location</button>
+      <p class="onboard__note">Place data from OpenStreetMap. Live busy-levels are estimated from typical patterns for each place type, day and hour — not a real-time feed.</p>
+    </div>
+  </section>
+
+  <!-- MAIN APP -->
+  <section id="view-main" class="view">
+    <header class="topbar">
+      <div class="topbar__city">
+        <span class="topbar__label">Exploring</span>
+        <button id="change-city" class="topbar__city-name">
+          <span id="current-city-name">—</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <button id="filter-toggle" class="icon-btn" aria-label="Filters">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span id="filter-dot" class="icon-btn__dot" hidden></span>
+      </button>
+    </header>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab tab--active" data-cat="poi" role="tab">Sights</button>
+      <button class="tab" data-cat="food" role="tab">Eat</button>
+      <button class="tab" data-cat="drink" role="tab">Drink &amp; go out</button>
+    </nav>
+
+    <!-- FILTER PANEL -->
+    <div id="filter-panel" class="filter-panel" hidden>
+      <div class="filter-panel__inner">
+
+        <div class="filter-group" data-for="food">
+          <p class="filter-group__title">Cuisine</p>
+          <div class="chip-row" id="chips-cuisine"></div>
+        </div>
+
+        <div class="filter-group" data-for="drink">
+          <p class="filter-group__title">Vibe</p>
+          <div class="chip-row" id="chips-vibe-drink"></div>
+        </div>
+
+        <div class="filter-group" data-for="poi">
+          <p class="filter-group__title">Interest</p>
+          <div class="chip-row" id="chips-poi"></div>
+        </div>
+
+        <div class="filter-group">
+          <p class="filter-group__title">Right now</p>
+          <div class="chip-row" id="chips-busy">
+            <button class="chip" data-busy="quiet">Quiet</button>
+            <button class="chip" data-busy="moderate">Moderate</button>
+            <button class="chip" data-busy="busy">Busy</button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <p class="filter-group__title">Sort by</p>
+          <div class="chip-row" id="chips-sort">
+            <button class="chip chip--active" data-sort="distance">Nearest</button>
+            <button class="chip" data-sort="rating">Top rated</button>
+            <button class="chip" data-sort="quiet">Quietest</button>
+          </div>
+        </div>
+
+        <button id="clear-filters" class="btn btn--text">Clear all filters</button>
+      </div>
+    </div>
+
+    <main id="list-container" class="list">
+      <div id="list-status" class="list-status">Loading places…</div>
+      <div id="list-items"></div>
+    </main>
+  </section>
+
+  <!-- DETAIL SHEET -->
+  <div id="sheet-backdrop" class="sheet-backdrop" hidden></div>
+  <section id="detail-sheet" class="sheet" hidden>
+    <div class="sheet__handle"></div>
+    <button id="sheet-close" class="sheet__close" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </button>
+    <div id="sheet-content" class="sheet__content"></div>
+  </section>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

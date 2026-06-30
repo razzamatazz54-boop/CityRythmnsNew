@@ -1,0 +1,15 @@
+{
+  "name": "CityRhythm — find what's alive right now",
+  "short_name": "CityRhythm",
+  "description": "Discover points of interest, restaurants, and nightlife with estimated live busy-levels and one-tap navigation.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#14181F",
+  "theme_color": "#14181F",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
